@@ -26,7 +26,7 @@ public class Message {
     public Message() {
     }
 
-    public Message(String text, ZonedDateTime created, String author) {
+    public Message(String text, String author, ZonedDateTime created) {
         this.text = text;
         this.created = created;
         this.updated = created;

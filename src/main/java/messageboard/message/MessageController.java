@@ -14,36 +14,27 @@ import java.util.Map;
 
 @RestController
 public class MessageController {
-    private final MessageRepository repository;
+    private final MessageService messageService;
 
-    public MessageController(MessageRepository repository) {
-        this.repository = repository;
+    public MessageController(MessageService messageService) {
+        this.messageService = messageService;
     }
 
     @GetMapping("/messages")
     ResponseEntity<List<Message>> all() {
-        List<Message> messages = repository.findAll();
+        List<Message> messages = messageService.getAllMessage();
         return new ResponseEntity<>(messages, HttpStatus.OK);
     }
 
     @PostMapping("/messages")
     ResponseEntity<Message> createMessage(@Valid @RequestBody MessageDto messageDto) {
-        ZonedDateTime now = ZonedDateTime.now();
-
-        Message message = new Message();
-        message.setAuthor(messageDto.getAuthor());
-        message.setText(messageDto.getText());
-        message.setCreated(now);
-        message.setUpdated(now);
-
-        Message savedMessage = repository.save(message);
-
+        Message savedMessage = messageService.createMessage(messageDto);
         return new ResponseEntity<>(savedMessage, HttpStatus.CREATED);
     }
 
     @DeleteMapping("/messages/{id}")
     ResponseEntity<Void> deleteMessage(@PathVariable Long id) {
-        repository.deleteById(id);
+        messageService.deleteMessage(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
