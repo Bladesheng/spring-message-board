@@ -13,7 +13,7 @@ import java.util.Map;
 @RestControllerAdvice
 public class ValidationAdvice {
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<Object> handleValidationException(MethodArgumentNotValidException e) {
+    public ResponseEntity<ValidationErrorResponse> handleValidationException(MethodArgumentNotValidException e) {
         Map<String, String> errors = new HashMap<>();
 
         e.getBindingResult().getAllErrors().forEach((error) -> {
@@ -22,8 +22,10 @@ public class ValidationAdvice {
             errors.put(fieldName, errorMessage);
         });
 
+        ValidationErrorResponse validationErrorResponse = new ValidationErrorResponse(HttpStatus.BAD_REQUEST, errors);
+
         return ResponseEntity
-                .status(HttpStatus.BAD_REQUEST)
-                .body(errors);
+                .status(validationErrorResponse.getStatus())
+                .body(validationErrorResponse);
     }
 }
