@@ -2,8 +2,6 @@ package messageboard.exceptions;
 
 import org.springframework.http.HttpStatus;
 
-import java.util.Map;
-
 public class ApiExceptionResponse {
     private HttpStatus status;
     private String message;
@@ -14,7 +12,7 @@ public class ApiExceptionResponse {
         this.message = message;
     }
 
-    
+
     public HttpStatus getStatus() {
         return status;
     }
