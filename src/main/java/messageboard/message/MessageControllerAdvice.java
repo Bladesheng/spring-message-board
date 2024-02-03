@@ -1,5 +1,8 @@
-package messageboard.exceptions;
+package messageboard.message;
 
+import messageboard.exceptions.ApiExceptionResponse;
+import messageboard.exceptions.EmptyMessageEditException;
+import messageboard.exceptions.NotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
