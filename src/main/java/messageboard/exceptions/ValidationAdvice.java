@@ -1,5 +1,7 @@
 package messageboard.exceptions;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -12,6 +14,8 @@ import java.util.Map;
 
 @RestControllerAdvice
 public class ValidationAdvice {
+    private static final Logger logger = LoggerFactory.getLogger(ValidationAdvice.class);
+
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ValidationErrorResponse> handleValidationException(MethodArgumentNotValidException e) {
         Map<String, String> errors = new HashMap<>();
@@ -23,6 +27,8 @@ public class ValidationAdvice {
         });
 
         ValidationErrorResponse validationErrorResponse = new ValidationErrorResponse(HttpStatus.BAD_REQUEST, errors);
+
+        logger.warn("Validation errors: {}", validationErrorResponse.getMessage());
 
         return ResponseEntity
                 .status(validationErrorResponse.getStatus())

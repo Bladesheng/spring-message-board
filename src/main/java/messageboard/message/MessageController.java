@@ -1,6 +1,9 @@
 package messageboard.message;
 
 import jakarta.validation.Valid;
+import messageboard.exceptions.ValidationAdvice;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -14,6 +17,7 @@ import java.util.Map;
 @RestController
 public class MessageController {
     private final MessageService messageService;
+    private static final Logger logger = LoggerFactory.getLogger(ValidationAdvice.class);
 
     public MessageController(MessageService messageService) {
         this.messageService = messageService;
@@ -28,12 +32,17 @@ public class MessageController {
     @PostMapping("/messages")
     ResponseEntity<Message> createMessage(@Valid @RequestBody MessageDto messageDto) {
         Message savedMessage = messageService.createMessage(messageDto);
+
+        logger.info("Created new message: {}", savedMessage);
+
         return new ResponseEntity<>(savedMessage, HttpStatus.CREATED);
     }
 
     @PatchMapping("/messages")
     ResponseEntity<Message> editMessage(@Valid @RequestBody MessageEditDto messageEditDto) {
         Message editedMessage = messageService.editMessage(messageEditDto);
+
+        logger.info("Edited a message: {}", editedMessage);
 
         return ResponseEntity
                 .status(HttpStatus.OK)
