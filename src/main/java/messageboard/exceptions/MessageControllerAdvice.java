@@ -9,18 +9,22 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class MessageControllerAdvice {
 
     @ExceptionHandler(NotFoundException.class)
-    public ResponseEntity<String> handleNotFoundException(NotFoundException e) {
+    public ResponseEntity<ApiExceptionResponse> handleNotFoundException(NotFoundException e) {
+
+        ApiExceptionResponse response = new ApiExceptionResponse(HttpStatus.NOT_FOUND, e.getMessage());
 
         return ResponseEntity
-                .status(HttpStatus.NOT_FOUND)
-                .body(e.getMessage());
+                .status(response.getStatus())
+                .body(response);
     }
 
     @ExceptionHandler(EmptyMessageEditException.class)
-    public ResponseEntity<String> handleEmptyMessageEditException(EmptyMessageEditException e) {
+    public ResponseEntity<ApiExceptionResponse> handleEmptyMessageEditException(EmptyMessageEditException e) {
+
+        ApiExceptionResponse response = new ApiExceptionResponse(HttpStatus.NOT_FOUND, e.getMessage());
 
         return ResponseEntity
-                .status(HttpStatus.BAD_REQUEST)
-                .body(e.getMessage());
+                .status(response.getStatus())
+                .body(response);
     }
 }
