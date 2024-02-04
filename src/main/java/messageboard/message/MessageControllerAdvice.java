@@ -24,7 +24,7 @@ public class MessageControllerAdvice {
     @ExceptionHandler(EmptyMessageEditException.class)
     public ResponseEntity<ApiExceptionResponse> handleEmptyMessageEditException(EmptyMessageEditException e) {
 
-        ApiExceptionResponse response = new ApiExceptionResponse(HttpStatus.NOT_FOUND, e.getMessage());
+        ApiExceptionResponse response = new ApiExceptionResponse(HttpStatus.BAD_REQUEST, e.getMessage());
 
         return ResponseEntity
                 .status(response.getStatus())

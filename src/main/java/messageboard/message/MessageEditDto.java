@@ -16,6 +16,12 @@ public class MessageEditDto {
     public MessageEditDto() {
     }
 
+    public MessageEditDto(String id, String author, String text) {
+        this.id = id;
+        this.author = author;
+        this.text = text;
+    }
+
     public String getAuthor() {
         return author;
     }

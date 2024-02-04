@@ -15,6 +15,11 @@ public class MessageDto {
     public MessageDto() {
     }
 
+    public MessageDto(String author, String text) {
+        this.author = author;
+        this.text = text;
+    }
+
     public String getAuthor() {
         return author;
     }
