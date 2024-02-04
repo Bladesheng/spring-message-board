@@ -22,6 +22,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+// https://github.com/bezkoder/spring-boot-unit-test-rest-controller/blob/master/src/test/java/com/bezkoder/spring/test/TutorialControllerTests.java
+// https://github.com/khoubyari/spring-boot-rest-example/blob/master/src/test/java/com/khoubyari/example/test/HotelControllerTest.java
+// https://github.com/Pio-Trek/Spring-Rest-API-Unit-Test/blob/master/src/test/java/com/sundaydevblog/springrestapitest/controller/MemberControllerTest.java
 
 @WebMvcTest(MessageController.class)
 public class MessageControllerTests {
