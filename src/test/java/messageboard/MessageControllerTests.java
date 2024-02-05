@@ -26,7 +26,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 // https://github.com/khoubyari/spring-boot-rest-example/blob/master/src/test/java/com/khoubyari/example/test/HotelControllerTest.java
 // https://github.com/Pio-Trek/Spring-Rest-API-Unit-Test/blob/master/src/test/java/com/sundaydevblog/springrestapitest/controller/MemberControllerTest.java
 
-@WebMvcTest(MessageController.class)
+@WebMvcTest(MessageControllerImpl.class)
 public class MessageControllerTests {
 
     @MockBean

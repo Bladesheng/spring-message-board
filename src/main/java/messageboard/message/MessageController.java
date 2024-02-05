@@ -1,61 +1,109 @@
 package messageboard.message;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.Parameters;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
-import messageboard.exceptions.ValidationAdvice;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 
-@RestController
-public class MessageController {
-    private final MessageService messageService;
-    private static final Logger logger = LoggerFactory.getLogger(ValidationAdvice.class);
 
-    public MessageController(MessageService messageService) {
-        this.messageService = messageService;
-    }
+// https://petstore.swagger.io/
+// https://github.com/swagger-api/swagger-petstore/blob/master/src/main/resources/openapi.yaml
+// https://www.baeldung.com/spring-rest-openapi-documentation
 
-    @GetMapping("/messages")
-    ResponseEntity<List<Message>> all() {
-        List<Message> messages = messageService.getAllMessages();
-        return new ResponseEntity<>(messages, HttpStatus.OK);
-    }
 
-    @GetMapping("/messages/{id}")
-    ResponseEntity<Message> getOne(@PathVariable Long id) {
-        Message message = messageService.getOneMessage(id);
-        return new ResponseEntity<>(message, HttpStatus.OK);
-    }
+public interface MessageController {
 
-    @PostMapping("/messages")
-    ResponseEntity<Message> createMessage(@Valid @RequestBody MessageDto messageDto) {
-        Message savedMessage = messageService.createMessage(messageDto);
 
-        logger.info("Created new message: {}", savedMessage);
+    @Operation(summary = "Get all message")
+    ResponseEntity<List<Message>> all();
 
-        return new ResponseEntity<>(savedMessage, HttpStatus.CREATED);
-    }
 
-    @PatchMapping("/messages")
-    ResponseEntity<Message> editMessage(@Valid @RequestBody MessageEditDto messageEditDto) {
-        Message editedMessage = messageService.editMessage(messageEditDto);
+    @Operation(summary = "Get a message by it's id")
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Found the message"
+            ),
+            @ApiResponse(
+                    responseCode = "400",
+                    description = "Invalid id supplied",
+                    content = @Content()
+            ),
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "Message not found",
+                    content = @Content()
+            ),
+    })
+    @Parameters(value = {
+            @Parameter(
+                    name = "id",
+                    description = "id of message to return",
+                    example = "69"
 
-        logger.info("Edited a message: {}", editedMessage);
+            )
+    })
+    ResponseEntity<Message> getOne(@PathVariable Long id);
 
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(editedMessage);
-    }
 
-    @DeleteMapping("/messages/{id}")
-    ResponseEntity<Void> deleteMessage(@PathVariable Long id) {
-        messageService.deleteMessage(id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-    }
+    @Operation(summary = "Add new message to the board")
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Created the message"
+            ),
+            @ApiResponse(
+                    responseCode = "400",
+                    description = "Invalid input",
+                    content = @Content()
+            ),
+    })
+    ResponseEntity<Message> createMessage(@Valid @RequestBody MessageDto messageDto);
+
+
+    @Operation(summary = "Edit existing message")
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Edited the message"
+            ),
+            @ApiResponse(
+                    responseCode = "400",
+                    description = "Invalid body supplied",
+                    content = @Content()
+            ),
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "Message not found",
+                    content = @Content()
+            ),
+    })
+    ResponseEntity<Message> editMessage(@Valid @RequestBody MessageEditDto messageEditDto);
+
+
+    @Operation(summary = "Delete a pet")
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "204",
+                    description = "Deleted the message"
+            ),
+    })
+    @Parameters(value = {
+            @Parameter(
+                    name = "id",
+                    description = "id of message to delete",
+                    example = "69"
+            )
+    })
+    ResponseEntity<Void> deleteMessage(@PathVariable Long id);
 
 
 }
