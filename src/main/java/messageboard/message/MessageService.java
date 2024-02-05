@@ -16,7 +16,7 @@ public class MessageService {
         this.messageRepository = messageRepository;
     }
 
-    public List<Message> getAllMessage() {
+    public List<Message> getAllMessages() {
         return messageRepository.findAll();
     }
 

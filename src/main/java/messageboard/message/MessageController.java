@@ -21,7 +21,7 @@ public class MessageController {
 
     @GetMapping("/messages")
     ResponseEntity<List<Message>> all() {
-        List<Message> messages = messageService.getAllMessage();
+        List<Message> messages = messageService.getAllMessages();
         return new ResponseEntity<>(messages, HttpStatus.OK);
     }
 

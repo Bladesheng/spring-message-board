@@ -43,7 +43,7 @@ public class MessageControllerTests {
     void shouldFetchAllMessages() throws Exception {
         Message message = new Message("text", "a author", ZonedDateTime.now());
 
-        when(messageService.getAllMessage()).thenReturn(List.of(message));
+        when(messageService.getAllMessages()).thenReturn(List.of(message));
 
         mockMvc.perform(get("/messages")
                         .accept(MediaType.APPLICATION_JSON)

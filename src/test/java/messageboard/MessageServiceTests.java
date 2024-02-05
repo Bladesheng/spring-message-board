@@ -48,7 +48,7 @@ public class MessageServiceTests {
     void shouldGetAllMessages() {
         when(messageRepository.findAll()).thenReturn(List.of(m1));
 
-        List<Message> messages = messageService.getAllMessage();
+        List<Message> messages = messageService.getAllMessages();
 
         assertThat(messages).hasSize(1);
     }
