@@ -20,6 +20,16 @@ public class MessageService {
         return messageRepository.findAll();
     }
 
+    public Message getOneMessage(Long id) {
+        Optional<Message> messageOptional = messageRepository.findById(id);
+
+        if (messageOptional.isEmpty()) {
+            throw new NotFoundException("message not found. id: " + id);
+        }
+
+        return messageOptional.get();
+    }
+
     public void deleteMessage(Long id) {
         messageRepository.deleteById(id);
     }

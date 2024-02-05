@@ -55,6 +55,28 @@ public class MessageServiceTests {
 
 
     @Test
+    void shouldGetOneMessage() {
+        when(messageRepository.findById(id)).thenReturn(Optional.of(m1));
+
+        Message message = messageService.getOneMessage(id);
+
+        assertThat(message.getText()).isEqualTo(m1.getText());
+    }
+
+
+    @Test
+    void shouldThrowWhenMessageDoesNotExist() {
+        when(messageRepository.findById(id)).thenReturn(Optional.empty());
+
+        NotFoundException exception = assertThrows(NotFoundException.class,
+                () -> messageService.getOneMessage(id)
+        );
+
+        assertThat(exception.getMessage()).isEqualTo("message not found. id: 69");
+    }
+
+
+    @Test
     void shouldCreateMessage() {
         when(messageRepository.save(any(Message.class))).thenReturn(m1);
 

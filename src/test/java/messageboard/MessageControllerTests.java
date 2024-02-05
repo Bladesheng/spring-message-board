@@ -55,6 +55,34 @@ public class MessageControllerTests {
 
 
     @Test
+    void shouldFetchOneMessage() throws Exception {
+        Message message = new Message("text", "a author", ZonedDateTime.now());
+
+        when(messageService.getOneMessage(1L)).thenReturn(message);
+
+        mockMvc.perform(get("/messages/1"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.text").value("text"))
+                .andDo(print());
+
+    }
+
+
+    @Test
+    void shouldNotReturnNotExistingMessage() throws Exception {
+        when(messageService.getOneMessage(2L)).thenThrow(
+                new NotFoundException("message not found. id: 2")
+        );
+
+        mockMvc.perform(get("/messages/2"))
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("$.message").value("message not found. id: 2"))
+                .andDo(print());
+
+    }
+
+
+    @Test
     void shouldCreateMessage() throws Exception {
         MessageDto messageDto = new MessageDto("a author", "text");
 

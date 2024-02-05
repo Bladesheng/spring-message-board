@@ -25,6 +25,12 @@ public class MessageController {
         return new ResponseEntity<>(messages, HttpStatus.OK);
     }
 
+    @GetMapping("/messages/{id}")
+    ResponseEntity<Message> getOne(@PathVariable Long id) {
+        Message message = messageService.getOneMessage(id);
+        return new ResponseEntity<>(message, HttpStatus.OK);
+    }
+
     @PostMapping("/messages")
     ResponseEntity<Message> createMessage(@Valid @RequestBody MessageDto messageDto) {
         Message savedMessage = messageService.createMessage(messageDto);
