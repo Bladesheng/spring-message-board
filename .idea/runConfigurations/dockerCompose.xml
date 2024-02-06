@@ -1,0 +1,10 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="dockerCompose" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+    <module name="spring-message-board" />
+    <target name="app" />
+    <option name="SPRING_BOOT_MAIN_CLASS" value="messageboard.MessageBoardApplication" />
+    <method v="2">
+      <option name="RunConfigurationTask" enabled="true" run_configuration_name="dbService" run_configuration_type="docker-deploy" />
+    </method>
+  </configuration>
+</component>
