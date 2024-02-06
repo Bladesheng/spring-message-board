@@ -5,9 +5,10 @@ import messageboard.exceptions.NotFoundException;
 import messageboard.message.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.ZonedDateTime;
 import java.util.List;
@@ -22,13 +23,13 @@ import static org.mockito.Mockito.*;
 // https://github.com/imtiaz-rahi/junit5-mockito-example/blob/master/src/test/java/com/github/imtiazrahi/junit5mock/AddressServiceTest.java
 // https://github.com/springframeworkguru/testing-junit5-mockito/blob/master/src/test/java/guru/springframework/sfgpetclinic/services/map/OwnerMapServiceTest.java
 
-@SpringBootTest
+@ExtendWith(MockitoExtension.class)
 public class MessageServiceTests {
 
-    @MockBean
+    @Mock
     private MessageRepository messageRepository;
 
-    @Autowired
+    @InjectMocks
     private MessageService messageService;
 
 
@@ -115,8 +116,6 @@ public class MessageServiceTests {
     @Test
     void shouldThrowWithEmptyEdit() {
         MessageEditDto messageEditDto = new MessageEditDto(String.valueOf(id), null, null);
-
-        when(messageRepository.findById(id)).thenReturn(Optional.of(m1));
 
         EmptyMessageEditException exception = assertThrows(EmptyMessageEditException.class,
                 () -> messageService.editMessage(messageEditDto)
